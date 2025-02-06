@@ -15,6 +15,7 @@ public class BarappApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BarappApplication.class, args);
-		initializer.initialize();
+		initializer.initializeUsers();
+		initializer.initializeRestaurants();
 	}
 }
