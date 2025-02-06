@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class Initializer {
@@ -49,11 +51,22 @@ public class Initializer {
     }
 
     public void initializeRestaurants() {
+        List<WaiterEntity> waiters = new ArrayList<>();
+        waiters.add(WaiterEntity.builder()
+                .name("Oksana Strukova")
+                .credentialEntity(credentialRepository.save(CredentialEntity.builder()
+                        .role(Role.WAITER)
+                        .email("waiter@example.com")
+                        .password("test")
+                        .build()))
+                .build());
+
         restaurantRepository.save(RestaurantEntity.builder()
                         .name("Rostic's")
                         .img("https://eda.yandex/images/3709189/b8ccc4b8b96de76f32cea0cd7d83650b-648x312.jpeg")
                         .rating(BigDecimal.valueOf(5))
-                .build());
+                        .waiters(waiters)
+                        .build());
         restaurantRepository.save(RestaurantEntity.builder()
                         .name("Бургер кинг")
                         .img("https://eda.yandex/images/2353725/455defacc92cd9493e8dc3ff94ad9601-648x312.jpg")

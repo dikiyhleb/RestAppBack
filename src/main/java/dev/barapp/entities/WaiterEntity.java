@@ -19,4 +19,8 @@ public class WaiterEntity extends BaseUserEntity{
     private CredentialEntity credentialEntity;
 
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    private RestaurantEntity restaurant;
 }

@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/manager")
+@RequestMapping("/api/manager")
 @RequiredArgsConstructor
 public class ManagerController {
-    private final ManagerRepository managerRepository;
 }

@@ -14,4 +14,6 @@ public class AdminController {
     public String checkAdmin() {
         return "admin check: OK!";
     }
+
+
 }
