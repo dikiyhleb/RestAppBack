@@ -32,10 +32,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/api/auth/login").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/user/**").hasRole("USER")
-                        .requestMatchers("/api/waiter/**").hasRole("WAITER")
-                        .requestMatchers("/api/manager/**").hasRole("MANAGER")
+                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/user/**").hasAuthority("USER")
+                        .requestMatchers("/api/waiter/**").hasAuthority("WAITER")
+                        .requestMatchers("/api/manager/**").hasAuthority("MANAGER")
                         .anyRequest().authenticated()
                 );
 

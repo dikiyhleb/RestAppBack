@@ -32,14 +32,6 @@ public class Initializer {
                         .password("1234")
                         .build()))
                 .build());
-        waiterRepository.save(WaiterEntity.builder()
-                .name("Oksana Strukova")
-                .credentialEntity(credentialRepository.save(CredentialEntity.builder()
-                        .role(Role.WAITER)
-                        .email("waiter@example.com")
-                        .password("test")
-                        .build()))
-                .build());
         managerRepository.save(ManagerEntity.builder()
                 .name("Petr Petrov")
                 .credentialEntity(credentialRepository.save(CredentialEntity.builder()
