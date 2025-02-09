@@ -1,7 +1,6 @@
 package dev.barapp.service;
 
 import dev.barapp.entities.BaseUserEntity;
-import dev.barapp.entities.Role;
 import dev.barapp.model.LoginResponse;
 import dev.barapp.repositories.ManagerRepository;
 import dev.barapp.repositories.UserRepository;
@@ -14,8 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.security.Principal;
 
 @Service
 @RequiredArgsConstructor

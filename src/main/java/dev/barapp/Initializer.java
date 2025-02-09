@@ -1,6 +1,8 @@
 package dev.barapp;
 
 import dev.barapp.entities.*;
+import dev.barapp.entities.enums.Role;
+import dev.barapp.entities.enums.TableStatus;
 import dev.barapp.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,21 +46,45 @@ public class Initializer {
 
     public void initializeRestaurants() {
         List<WaiterEntity> waiters = new ArrayList<>();
-        waiters.add(WaiterEntity.builder()
+
+        List<TableEntity> tables = new ArrayList<>();
+
+        RestaurantEntity rostics = RestaurantEntity.builder()
+                .name("Rostic's")
+                .img("https://eda.yandex/images/3709189/b8ccc4b8b96de76f32cea0cd7d83650b-648x312.jpeg")
+                .rating(BigDecimal.valueOf(5))
+                .build();
+        restaurantRepository.save(rostics);
+
+        for (int i = 0; i < 10; i++) {
+            tables.add(TableEntity.builder()
+                            .numOfTable(1)
+                            .capacity(i % 3 == 0 ? i : i % 3)
+                            .status(TableStatus.FREE)
+                            .restaurant(rostics)
+                    .build());
+        }
+
+
+
+        WaiterEntity waiter = WaiterEntity.builder()
                 .name("Oksana Strukova")
                 .credentialEntity(credentialRepository.save(CredentialEntity.builder()
                         .role(Role.WAITER)
                         .email("waiter@example.com")
                         .password("test")
                         .build()))
-                .build());
+                .restaurant(rostics)
+                .build();
 
-        restaurantRepository.save(RestaurantEntity.builder()
-                        .name("Rostic's")
-                        .img("https://eda.yandex/images/3709189/b8ccc4b8b96de76f32cea0cd7d83650b-648x312.jpeg")
-                        .rating(BigDecimal.valueOf(5))
-                        .waiters(waiters)
-                        .build());
+        waiterRepository.save(waiter);
+
+        waiters.add(waiter);
+        rostics.setWaiters(waiters);
+        rostics.setTables(tables);
+
+        restaurantRepository.save(rostics);
+
         restaurantRepository.save(RestaurantEntity.builder()
                         .name("Бургер кинг")
                         .img("https://eda.yandex/images/2353725/455defacc92cd9493e8dc3ff94ad9601-648x312.jpg")

@@ -1,4 +1,4 @@
-package dev.barapp.entities;
+package dev.barapp.entities.enums;
 
 public enum Role {
     ADMIN,

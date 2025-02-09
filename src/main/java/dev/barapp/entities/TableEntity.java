@@ -1,28 +1,30 @@
 package dev.barapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.barapp.entities.enums.TableStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WaiterEntity extends BaseUserEntity{
+public class TableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "credential_id")
-    private CredentialEntity credentialEntity;
+    private Integer numOfTable;
 
-    private String name;
+    private TableStatus status;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    private Integer capacity;
+
+    @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private RestaurantEntity restaurant;
 }

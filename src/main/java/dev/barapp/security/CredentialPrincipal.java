@@ -1,7 +1,7 @@
 package dev.barapp.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.barapp.entities.Role;
+import dev.barapp.entities.enums.Role;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
