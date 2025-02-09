@@ -58,7 +58,7 @@ public class Initializer {
 
         for (int i = 0; i < 10; i++) {
             tables.add(TableEntity.builder()
-                            .numOfTable(1)
+                            .numOfTable(i + 1)
                             .capacity(i % 3 == 0 ? i : i % 3)
                             .status(TableStatus.FREE)
                             .restaurant(rostics)

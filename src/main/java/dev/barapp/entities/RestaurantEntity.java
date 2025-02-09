@@ -29,4 +29,7 @@ public class RestaurantEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TableEntity> tables;
+
+    @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private MenuEntity menu;
 }
