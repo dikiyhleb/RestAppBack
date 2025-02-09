@@ -34,14 +34,6 @@ public class Initializer {
                         .password("1234")
                         .build()))
                 .build());
-        managerRepository.save(ManagerEntity.builder()
-                .name("Petr Petrov")
-                .credentialEntity(credentialRepository.save(CredentialEntity.builder()
-                        .role(Role.MANAGER)
-                        .email("manager@example.com")
-                        .password("1234")
-                        .build()))
-                .build());
     }
 
     public void initializeRestaurants() {
@@ -79,9 +71,22 @@ public class Initializer {
 
         waiterRepository.save(waiter);
 
+        ManagerEntity manager = ManagerEntity.builder()
+                .name("Petr Petrov")
+                .credentialEntity(credentialRepository.save(CredentialEntity.builder()
+                        .role(Role.MANAGER)
+                        .email("manager@example.com")
+                        .password("1234")
+                        .build()))
+                .restaurant(rostics)
+                .build();
+
+        managerRepository.save(manager);
+
         waiters.add(waiter);
         rostics.setWaiters(waiters);
         rostics.setTables(tables);
+        rostics.setManager(manager);
 
         restaurantRepository.save(rostics);
 

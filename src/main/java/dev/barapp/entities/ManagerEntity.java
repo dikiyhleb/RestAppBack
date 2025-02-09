@@ -1,5 +1,6 @@
 package dev.barapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,4 +20,9 @@ public class ManagerEntity extends BaseUserEntity{
     private CredentialEntity credentialEntity;
 
     private String name;
+
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "restaurant_id")
+    private RestaurantEntity restaurant;
 }

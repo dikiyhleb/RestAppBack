@@ -23,6 +23,10 @@ public class RestaurantEntity {
     private BigDecimal rating;
 
     @JsonIgnore
+    @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ManagerEntity manager;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WaiterEntity> waiters;
 
