@@ -34,6 +34,7 @@ public class RestaurantEntity {
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TableEntity> tables;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private MenuEntity menu;
 }

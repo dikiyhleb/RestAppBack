@@ -1,5 +1,6 @@
 package dev.barapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class FoodEntity {
     @OneToMany(mappedBy = "food", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImageEntity> images;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "menu_id")
     private MenuEntity menu;

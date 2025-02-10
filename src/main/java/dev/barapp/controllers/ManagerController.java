@@ -1,19 +1,17 @@
 package dev.barapp.controllers;
 
+import dev.barapp.entities.FoodEntity;
+import dev.barapp.entities.MenuEntity;
 import dev.barapp.entities.RestaurantEntity;
 import dev.barapp.entities.WaiterEntity;
 import dev.barapp.repositories.ManagerRepository;
-import dev.barapp.repositories.RestaurantRepository;
 import dev.barapp.repositories.WaiterRepository;
+import dev.barapp.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/manager")
@@ -23,7 +21,9 @@ public class ManagerController {
     @Autowired
     private final ManagerRepository managerRepository;
     @Autowired
-    private WaiterRepository waiterRepository;
+    private final WaiterRepository waiterRepository;
+    @Autowired
+    private MenuService menuService;
 
     @GetMapping("/restaurant")
     public RestaurantEntity getRestaurant(@RequestParam(value = "managerId") long id) {
@@ -33,5 +33,15 @@ public class ManagerController {
     @GetMapping("/waiters")
     public List<WaiterEntity> getWaiters(@RequestParam(value = "restId") long id) {
         return waiterRepository.findWaiterEntitiesByRestaurantEntity_Id(id);
+    }
+
+    @PostMapping("/create/food")
+    public MenuEntity createFood(@RequestBody(required = true) FoodEntity foodEntity, @RequestParam(value = "restId") long restId) {
+        return menuService.createFood(foodEntity, restId);
+    }
+
+    @GetMapping("/menu")
+    public List<FoodEntity> getMenu(@RequestParam(value = "restId") long restId) {
+        return menuService.getAllFood(restId);
     }
 }

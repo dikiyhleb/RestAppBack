@@ -1,5 +1,6 @@
 package dev.barapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,10 +17,16 @@ public class MenuEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FoodEntity> foods;
 
     @OneToOne
     @JoinColumn(name = "restaurant_id")
     private RestaurantEntity restaurant;
+
+    public void addFood(FoodEntity food) {
+        foods.add(food);
+        food.setMenu(this);
+    }
 }

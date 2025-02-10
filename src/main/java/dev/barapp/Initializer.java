@@ -24,6 +24,8 @@ public class Initializer {
     private ManagerRepository managerRepository;
     @Autowired
     private RestaurantRepository restaurantRepository;
+    @Autowired
+    private MenuRepository menuRepository;
 
     public void initializeUsers() {
         userRepository.save(UserEntity.builder()
@@ -83,10 +85,17 @@ public class Initializer {
 
         managerRepository.save(manager);
 
+        MenuEntity menu = MenuEntity.builder()
+                .restaurant(rostics)
+                .build();
+
+        menuRepository.save(menu);
+
         waiters.add(waiter);
         rostics.setWaiters(waiters);
         rostics.setTables(tables);
         rostics.setManager(manager);
+        rostics.setMenu(menu);
 
         restaurantRepository.save(rostics);
 
