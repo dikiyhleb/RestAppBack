@@ -40,6 +40,11 @@ public class ManagerController {
         return menuService.createFood(foodEntity, restId);
     }
 
+    @DeleteMapping("/delete/food/{id}")
+    public void deleteFood(@PathVariable("id") long id) {
+        menuService.deleteFood(id);
+    }
+
     @GetMapping("/menu")
     public List<FoodEntity> getMenu(@RequestParam(value = "restId") long restId) {
         return menuService.getAllFood(restId);

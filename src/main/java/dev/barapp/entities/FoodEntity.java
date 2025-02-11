@@ -25,7 +25,7 @@ public class FoodEntity {
     private String description;
 
     @OneToMany(mappedBy = "food", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ImageEntity> images;
+    private List<ImageEntity> img;
 
     @JsonIgnore
     @ManyToOne

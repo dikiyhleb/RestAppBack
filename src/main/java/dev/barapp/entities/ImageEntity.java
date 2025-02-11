@@ -1,5 +1,6 @@
 package dev.barapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class ImageEntity {
 
     private String url;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "food_id")
     private FoodEntity food;
