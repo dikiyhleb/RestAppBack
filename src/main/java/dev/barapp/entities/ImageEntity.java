@@ -21,4 +21,9 @@ public class ImageEntity {
     @ManyToOne
     @JoinColumn(name = "food_id")
     private FoodEntity food;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private RestaurantEntity restaurant;
 }

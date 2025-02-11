@@ -19,8 +19,11 @@ public class RestaurantEntity {
     private Long id;
 
     private String name;
-    private String img;
+
     private BigDecimal rating;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<ImageEntity> img;
 
     @JsonIgnore
     @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -30,11 +33,9 @@ public class RestaurantEntity {
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WaiterEntity> waiters;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TableEntity> tables;
 
-    @JsonIgnore
     @OneToOne(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private MenuEntity menu;
 }

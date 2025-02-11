@@ -17,10 +17,10 @@ public class MenuEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FoodEntity> foods;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "restaurant_id")
     private RestaurantEntity restaurant;

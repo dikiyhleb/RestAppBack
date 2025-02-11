@@ -26,6 +26,8 @@ public class Initializer {
     private RestaurantRepository restaurantRepository;
     @Autowired
     private MenuRepository menuRepository;
+    @Autowired
+    private ImageRespository imageRespository;
 
     public void initializeUsers() {
         userRepository.save(UserEntity.builder()
@@ -45,7 +47,6 @@ public class Initializer {
 
         RestaurantEntity rostics = RestaurantEntity.builder()
                 .name("Rostic's")
-                .img("https://eda.yandex/images/3709189/b8ccc4b8b96de76f32cea0cd7d83650b-648x312.jpeg")
                 .rating(BigDecimal.valueOf(5))
                 .build();
         restaurantRepository.save(rostics);
@@ -59,7 +60,12 @@ public class Initializer {
                     .build());
         }
 
+        ImageEntity image = ImageEntity.builder()
+                .url("https://eda.yandex/images/3559865/ee31782ce8a630a015b6b94fd07b3351-648x312.jpg")
+                .restaurant(rostics)
+                .build();
 
+        imageRespository.save(image);
 
         WaiterEntity waiter = WaiterEntity.builder()
                 .name("Oksana Strukova")
@@ -96,28 +102,23 @@ public class Initializer {
         rostics.setTables(tables);
         rostics.setManager(manager);
         rostics.setMenu(menu);
+        rostics.setImg(List.of(image));
 
         restaurantRepository.save(rostics);
 
-        restaurantRepository.save(RestaurantEntity.builder()
+        RestaurantEntity restaurant1 = RestaurantEntity.builder()
                         .name("Бургер кинг")
-                        .img("https://eda.yandex/images/2353725/455defacc92cd9493e8dc3ff94ad9601-648x312.jpg")
                         .rating(BigDecimal.valueOf(4.4))
-                .build());
-        restaurantRepository.save(RestaurantEntity.builder()
-                        .name("SICILIA")
-                        .img("https://eda.yandex/images/3490335/3ec0c979b59f410b885a7c5f77a2668c-648x312.jpg")
-                        .rating(BigDecimal.valueOf(4.7))
-                .build());
-        restaurantRepository.save(RestaurantEntity.builder()
-                        .name("Мистер суши")
-                        .img("https://eda.yandex/images/14739469/15bae80b1cb04aa28b2321de7305f06d-648x312.jpg")
-                        .rating(BigDecimal.valueOf(4.6))
-                .build());
-        restaurantRepository.save(RestaurantEntity.builder()
-                        .name("Epic Pizza")
-                        .img("https://eda.yandex/images/14835768/9910e4db927348f9994ebf47b4b4fd13-648x312.jpg")
-                        .rating(BigDecimal.valueOf(4.8))
-                .build());
+                .build();
+        restaurantRepository.save(restaurant1);
+
+        ImageEntity image1 = ImageEntity.builder()
+                .url("https://eda.yandex/images/2353725/455defacc92cd9493e8dc3ff94ad9601-648x312.jpg")
+                .restaurant(restaurant1)
+                .build();
+        imageRespository.save(image1);
+        restaurant1.setImg(List.of(image1));
+        restaurantRepository.save(restaurant1);
+
     }
 }

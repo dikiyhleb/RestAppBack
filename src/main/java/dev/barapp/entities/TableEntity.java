@@ -24,6 +24,7 @@ public class TableEntity {
 
     private Integer capacity;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private RestaurantEntity restaurant;
