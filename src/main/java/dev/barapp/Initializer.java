@@ -4,6 +4,7 @@ import dev.barapp.entities.*;
 import dev.barapp.entities.enums.Role;
 import dev.barapp.entities.enums.TableStatus;
 import dev.barapp.repositories.*;
+import dev.barapp.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,8 @@ public class Initializer {
     private MenuRepository menuRepository;
     @Autowired
     private ImageRespository imageRespository;
+    @Autowired
+    private MenuService menuService;
 
     public void initializeUsers() {
         userRepository.save(UserEntity.builder()
@@ -105,6 +108,25 @@ public class Initializer {
         rostics.setImg(List.of(image));
 
         restaurantRepository.save(rostics);
+
+        menuService.createFood(FoodEntity.builder()
+                .img(List.of(ImageEntity.builder()
+                        .url("https://s82079.cdn.ngenix.net/330x0/cl7zmfy3pdo13s23a72oe60tu8pk")
+                        .build()))
+                .name("Чикенбургер Сырный")
+                .description("Пшеничная булочка с кукурузной посыпкой")
+                .price(BigDecimal.valueOf(109))
+                .build(), rostics.getId());
+
+        menuService.createFood(FoodEntity.builder()
+                .img(List.of(ImageEntity.builder()
+                        .url("https://s82079.cdn.ngenix.net/330x0/fz22kuzilmbdcjq1faffoxnxoif1")
+                        .build()))
+                .name("Дабл чикен")
+                .description("Попробуй легендарный бургер без булок!")
+                .price(BigDecimal.valueOf(324))
+                .build(), rostics.getId());
+
 
         RestaurantEntity restaurant1 = RestaurantEntity.builder()
                         .name("Бургер кинг")

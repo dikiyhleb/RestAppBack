@@ -19,12 +19,12 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private OrderStatus orderStatus;
+    private OrderStatus status;
 
     private Date date;
 
     private BigDecimal rating;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<FoodEntity> foodEntities;
+    private List<FoodEntity> foods;
 }
