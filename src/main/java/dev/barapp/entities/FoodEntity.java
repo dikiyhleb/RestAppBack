@@ -31,4 +31,9 @@ public class FoodEntity {
     @ManyToOne
     @JoinColumn(name = "menu_id")
     private MenuEntity menu;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private OrderEntity order;
 }

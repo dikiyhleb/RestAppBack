@@ -1,14 +1,12 @@
 package dev.barapp.entities;
 
 import dev.barapp.entities.enums.OrderStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,7 +21,10 @@ public class OrderEntity {
 
     private OrderStatus orderStatus;
 
-    private Date createdAt;
+    private Date date;
 
     private BigDecimal rating;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<FoodEntity> foodEntities;
 }
