@@ -25,6 +25,22 @@ public class OrderEntity {
 
     private BigDecimal rating;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(
+            name = "order_foods",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "food_id")
+    )
     private List<FoodEntity> foods;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
+    @ManyToOne
+    @JoinColumn(name = "table_id")
+    private TableEntity table;
+
+    @OneToOne()
+    private WaiterEntity waiter;
 }

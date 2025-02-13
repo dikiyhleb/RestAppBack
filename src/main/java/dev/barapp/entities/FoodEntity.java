@@ -33,7 +33,6 @@ public class FoodEntity {
     private MenuEntity menu;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private OrderEntity order;
+    @ManyToMany(mappedBy = "foods")
+    private List<OrderEntity> order;
 }

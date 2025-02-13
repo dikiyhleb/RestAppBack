@@ -2,15 +2,14 @@ package dev.barapp.controllers;
 
 import dev.barapp.DTOs.CardRestEntityDTO;
 import dev.barapp.entities.FoodEntity;
+import dev.barapp.entities.OrderEntity;
 import dev.barapp.entities.RestaurantEntity;
 import dev.barapp.repositories.RestaurantRepository;
 import dev.barapp.service.MenuService;
+import dev.barapp.service.OrderService;
 import dev.barapp.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +21,7 @@ public class UserController {
     private final RestaurantRepository restaurantRepository;
     private final RestaurantService restaurantService;
     private final MenuService menuService;
+    private final OrderService orderService;
 
     @GetMapping("/test")
     public String test() {
@@ -41,5 +41,10 @@ public class UserController {
     @GetMapping("/menu")
     public List<FoodEntity> getMenu(@RequestParam(value = "restId") long restId) {
         return menuService.getAllFood(restId);
+    }
+
+    @PostMapping("/create/order")
+    public OrderEntity createOrder(@RequestBody OrderEntity order, @RequestParam(value = "restId") long restId) {
+        return orderService.createOrder(restId, order);
     }
 }
