@@ -1,8 +1,11 @@
 package dev.barapp.service;
 
+import dev.barapp.DTOs.manager.ManagerMenuDTO;
+import dev.barapp.DTOs.user.UserMenuDTO;
 import dev.barapp.entities.FoodEntity;
 import dev.barapp.entities.ImageEntity;
 import dev.barapp.entities.MenuEntity;
+import dev.barapp.mappers.MenuMapper;
 import dev.barapp.repositories.FoodRepository;
 import dev.barapp.repositories.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,8 @@ public class MenuService {
     private final MenuRepository menuRepository;
     @Autowired
     private FoodRepository foodRepository;
+
+    private MenuMapper menuMapper;
 
     public MenuEntity createFood(FoodEntity food, long restId) {
         MenuEntity menu = menuRepository.findMenuEntityByRestaurantId(restId);
@@ -37,9 +42,7 @@ public class MenuService {
         foodRepository.deleteById(foodId);
     }
 
-    public List<FoodEntity> getAllFood(long restId) {
-        MenuEntity menu = menuRepository.findMenuEntityByRestaurantId(restId);
-
-        return menu.getFoods();
+    public MenuEntity getMenuByRestaurantId(long restId) {
+        return menuRepository.findMenuEntityByRestaurantId(restId);
     }
 }

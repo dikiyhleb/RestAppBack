@@ -1,4 +1,4 @@
-package dev.barapp.DTOs;
+package dev.barapp.DTOs.manager;
 
 
 import dev.barapp.entities.ImageEntity;

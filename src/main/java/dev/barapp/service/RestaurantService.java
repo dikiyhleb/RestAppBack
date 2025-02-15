@@ -1,6 +1,5 @@
 package dev.barapp.service;
 
-import dev.barapp.DTOs.CardRestEntityDTO;
 import dev.barapp.entities.RestaurantEntity;
 import dev.barapp.repositories.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,21 +16,8 @@ public class RestaurantService {
     @Autowired
     private final RestaurantRepository restaurantRepository;
 
-    public List<CardRestEntityDTO> getAllRestCards(){
-        List<RestaurantEntity> restaurantEntities = restaurantRepository.findAll();
-
-        List<CardRestEntityDTO> cardRestEntityDTOS = new ArrayList<>();
-
-        for (RestaurantEntity restaurantEntity : restaurantEntities) {
-            cardRestEntityDTOS.add(CardRestEntityDTO.builder()
-                            .id(restaurantEntity.getId())
-                            .name(restaurantEntity.getName())
-                            .preview(restaurantEntity.getImg().get(0))
-                            .rating(restaurantEntity.getRating())
-                    .build());
-        }
-
-        return cardRestEntityDTOS;
+    public List<RestaurantEntity> getAllRestaurants(){
+        return restaurantRepository.findAll();
     }
 
     public Optional<RestaurantEntity> getRestaurantById(Long id){
@@ -40,5 +26,9 @@ public class RestaurantService {
 
     public RestaurantEntity findRestaurantByManagerEntityId(Long id){
         return restaurantRepository.findRestaurantEntityByManagerId(id);
+    }
+
+    public RestaurantEntity findRestaurantByWaiterEntityId(Long id){
+        return restaurantRepository.findRestaurantEntityByWaitersId(id);
     }
 }

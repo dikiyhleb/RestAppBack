@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface RestaurantRepository extends JpaRepository<RestaurantEntity, Long> {
     public RestaurantEntity findRestaurantEntityByManagerId(Long managerId);
+
+    public RestaurantEntity findRestaurantEntityByWaitersId(Long waitersId);
 }
