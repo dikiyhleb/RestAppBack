@@ -1,12 +1,15 @@
 package dev.barapp.controllers;
 
+import dev.barapp.DTOs.ManagerRestDTO;
 import dev.barapp.entities.FoodEntity;
 import dev.barapp.entities.MenuEntity;
 import dev.barapp.entities.RestaurantEntity;
 import dev.barapp.entities.WaiterEntity;
+import dev.barapp.mappers.RestaurantMapper;
 import dev.barapp.repositories.ManagerRepository;
 import dev.barapp.repositories.WaiterRepository;
 import dev.barapp.service.MenuService;
+import dev.barapp.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +27,16 @@ public class ManagerController {
     private final WaiterRepository waiterRepository;
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private RestaurantService restaurantService;
+    @Autowired
+    private RestaurantMapper restaurantMapper;
 
     @GetMapping("/restaurant")
-    public RestaurantEntity getRestaurant(@RequestParam(value = "managerId") long id) {
-        return managerRepository.findRestaurantEntityByManagerEntity_Id(id);
+    public ManagerRestDTO getRestaurant(@RequestParam(value = "managerId") long id) {
+        RestaurantEntity rest = restaurantService.findRestaurantByManagerEntityId(id);
+
+        return restaurantMapper.restToManagerRestDTO(rest);
     }
 
     @GetMapping("/waiters")

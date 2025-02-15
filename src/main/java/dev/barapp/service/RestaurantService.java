@@ -37,4 +37,8 @@ public class RestaurantService {
     public Optional<RestaurantEntity> getRestaurantById(Long id){
         return restaurantRepository.findById(id);
     }
+
+    public RestaurantEntity findRestaurantByManagerEntityId(Long id){
+        return restaurantRepository.findRestaurantEntityByManagerId(id);
+    }
 }
