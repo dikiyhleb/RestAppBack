@@ -1,7 +1,7 @@
 package dev.barapp.service;
 
 import dev.barapp.entities.BaseUserEntity;
-import dev.barapp.model.LoginResponse;
+import dev.barapp.DTOs.auth.login.LoginResponse;
 import dev.barapp.repositories.ManagerRepository;
 import dev.barapp.repositories.UserRepository;
 import dev.barapp.repositories.WaiterRepository;

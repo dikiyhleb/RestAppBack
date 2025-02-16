@@ -1,22 +1,13 @@
 package dev.barapp.controllers;
 
+import dev.barapp.DTOs.manager.ManagerCreateFoodDTO;
 import dev.barapp.DTOs.manager.ManagerMenuDTO;
 import dev.barapp.DTOs.manager.ManagerRestDTO;
 import dev.barapp.DTOs.manager.ManagerWaiterDTO;
-import dev.barapp.entities.FoodEntity;
-import dev.barapp.entities.MenuEntity;
-import dev.barapp.entities.RestaurantEntity;
-import dev.barapp.entities.WaiterEntity;
-import dev.barapp.mappers.MenuMapper;
-import dev.barapp.mappers.RestaurantMapper;
-import dev.barapp.mappers.WaiterMapper;
-import dev.barapp.repositories.ManagerRepository;
-import dev.barapp.repositories.WaiterRepository;
 import dev.barapp.service.MenuService;
 import dev.barapp.service.RestaurantService;
 import dev.barapp.service.WaiterService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,23 +17,9 @@ import java.util.List;
 @RequestMapping("/api/manager")
 @RequiredArgsConstructor
 public class ManagerController {
-
-    @Autowired
-    private final ManagerRepository managerRepository;
-    @Autowired
-    private final WaiterRepository waiterRepository;
-    @Autowired
-    private MenuService menuService;
-    @Autowired
-    private RestaurantService restaurantService;
-    @Autowired
-    private RestaurantMapper restaurantMapper;
-    @Autowired
-    private WaiterService waiterService;
-    @Autowired
-    private WaiterMapper waiterMapper;
-    @Autowired
-    private MenuMapper menuMapper;
+    private final MenuService menuService;
+    private final RestaurantService restaurantService;
+    private final WaiterService waiterService;
 
     @GetMapping("/restaurant")
     public ManagerRestDTO getRestaurant(@RequestParam(value = "managerId") long id) throws ChangeSetPersister.NotFoundException {
@@ -55,8 +32,8 @@ public class ManagerController {
     }
 
     @PostMapping("/create/food")
-    public MenuEntity createFood(@RequestBody(required = true) FoodEntity foodEntity, @RequestParam(value = "restId") long restId) throws ChangeSetPersister.NotFoundException {
-        return menuService.createFood(foodEntity, restId);
+    public ManagerMenuDTO createFood(@RequestBody(required = true) ManagerCreateFoodDTO food, @RequestParam(value = "restId") long restId) throws ChangeSetPersister.NotFoundException {
+        return menuService.createFood(food, restId);
     }
 
     @DeleteMapping("/delete/food/{id}")

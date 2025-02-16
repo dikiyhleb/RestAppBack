@@ -10,7 +10,6 @@ import dev.barapp.mappers.RestaurantMapper;
 import dev.barapp.mappers.TableMapper;
 import dev.barapp.repositories.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +18,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RestaurantService {
-    @Autowired
     private final RestaurantRepository restaurantRepository;
-
     private final RestaurantMapper restaurantMapper;
-
     private final TableMapper tableMapper;
 
     public List<UserCardRestDTO> getUserRestCards() throws ChangeSetPersister.NotFoundException {
@@ -46,12 +42,6 @@ public class RestaurantService {
         RestaurantEntity restaurant = restaurantRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
 
         return tableMapper.toWaiterTablesDTO(restaurant);
-    }
-
-    public WaiterRestDTO getWaiterRestaurantById(Long id) throws ChangeSetPersister.NotFoundException {
-        RestaurantEntity restaurant = restaurantRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
-
-        return restaurantMapper.toWaiterRestDTO(restaurant);
     }
 
     public ManagerRestDTO findRestaurantByManagerEntityId(Long id) throws ChangeSetPersister.NotFoundException {

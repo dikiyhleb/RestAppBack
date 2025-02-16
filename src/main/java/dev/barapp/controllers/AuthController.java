@@ -1,7 +1,7 @@
 package dev.barapp.controllers;
 
-import dev.barapp.model.LoginRequest;
-import dev.barapp.model.LoginResponse;
+import dev.barapp.DTOs.auth.login.LoginRequest;
+import dev.barapp.DTOs.auth.login.LoginResponse;
 import dev.barapp.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

@@ -1,4 +1,4 @@
-package dev.barapp.model;
+package dev.barapp.DTOs.auth.login;
 
 import dev.barapp.entities.BaseUserEntity;
 import lombok.Builder;

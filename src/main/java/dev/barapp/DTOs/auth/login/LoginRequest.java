@@ -1,4 +1,4 @@
-package dev.barapp.model;
+package dev.barapp.DTOs.auth.login;
 
 import lombok.Builder;
 import lombok.Getter;

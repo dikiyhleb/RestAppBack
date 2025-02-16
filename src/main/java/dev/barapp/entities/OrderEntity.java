@@ -41,6 +41,7 @@ public class OrderEntity {
     @JoinColumn(name = "table_id")
     private TableEntity table;
 
-    @OneToOne()
+    @ManyToOne
+    @JoinColumn(name = "waiter_id")
     private WaiterEntity waiter;
 }

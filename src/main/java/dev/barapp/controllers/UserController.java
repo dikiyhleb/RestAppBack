@@ -2,8 +2,8 @@ package dev.barapp.controllers;
 
 import dev.barapp.DTOs.user.UserCardRestDTO;
 import dev.barapp.DTOs.user.UserMenuDTO;
+import dev.barapp.DTOs.user.UserNewOrderDTO;
 import dev.barapp.DTOs.user.UserRestDTO;
-import dev.barapp.entities.OrderEntity;
 import dev.barapp.service.MenuService;
 import dev.barapp.service.OrderService;
 import dev.barapp.service.RestaurantService;
@@ -41,8 +41,9 @@ public class UserController {
         return menuService.getUserMenuByRestaurantId(restId);
     }
 
+    //TODO fix return, UserNewOrderDTO is null!
     @PostMapping("/create/order")
-    public OrderEntity createOrder(@RequestBody OrderEntity order, @RequestParam(value = "restId") long restId) {
+    public UserNewOrderDTO createOrder(@RequestBody UserNewOrderDTO order, @RequestParam(value = "restId") long restId) throws ChangeSetPersister.NotFoundException {
         return orderService.createOrder(restId, order);
     }
 }

@@ -2,11 +2,6 @@ package dev.barapp.controllers;
 
 import dev.barapp.DTOs.waiter.WaiterRestDTO;
 import dev.barapp.DTOs.waiter.WaiterTablesDTO;
-import dev.barapp.entities.RestaurantEntity;
-import dev.barapp.mappers.RestaurantMapper;
-import dev.barapp.mappers.TableMapper;
-import dev.barapp.repositories.TableRepository;
-import dev.barapp.repositories.WaiterRepository;
 import dev.barapp.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;

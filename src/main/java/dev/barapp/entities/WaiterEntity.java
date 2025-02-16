@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @Getter
@@ -26,6 +28,6 @@ public class WaiterEntity extends BaseUserEntity{
     @JoinColumn(name = "restaurant_id")
     private RestaurantEntity restaurant;
 
-    @OneToOne
-    private OrderEntity order;
+    @OneToMany(mappedBy = "waiter", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderEntity> order;
 }
