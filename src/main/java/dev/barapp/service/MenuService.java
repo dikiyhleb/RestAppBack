@@ -10,9 +10,10 @@ import dev.barapp.repositories.FoodRepository;
 import dev.barapp.repositories.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +25,8 @@ public class MenuService {
 
     private MenuMapper menuMapper;
 
-    public MenuEntity createFood(FoodEntity food, long restId) {
-        MenuEntity menu = menuRepository.findMenuEntityByRestaurantId(restId);
+    public MenuEntity createFood(FoodEntity food, long restId) throws ChangeSetPersister.NotFoundException {
+        MenuEntity menu = menuRepository.findMenuEntityByRestaurantId(restId).orElseThrow(ChangeSetPersister.NotFoundException::new);
 
         for(ImageEntity i : food.getImg()){
             i.setFood(food);
@@ -42,7 +43,15 @@ public class MenuService {
         foodRepository.deleteById(foodId);
     }
 
-    public MenuEntity getMenuByRestaurantId(long restId) {
-        return menuRepository.findMenuEntityByRestaurantId(restId);
+    public UserMenuDTO getUserMenuByRestaurantId(long restId) throws ChangeSetPersister.NotFoundException {
+        MenuEntity menu = menuRepository.findMenuEntityByRestaurantId(restId).orElseThrow(ChangeSetPersister.NotFoundException::new);
+
+        return menuMapper.toUserMenuDTO(menu);
+    }
+
+    public ManagerMenuDTO getManagerMenuByRestaurantId(long restId) throws ChangeSetPersister.NotFoundException {
+        MenuEntity menu = menuRepository.findMenuEntityByRestaurantId(restId).orElseThrow(ChangeSetPersister.NotFoundException::new);
+
+        return menuMapper.toManagerMenuDTO(menu);
     }
 }

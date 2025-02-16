@@ -6,6 +6,7 @@ import dev.barapp.entities.enums.TableStatus;
 import dev.barapp.repositories.*;
 import dev.barapp.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -43,7 +44,7 @@ public class Initializer {
                 .build());
     }
 
-    public void initializeRestaurants() {
+    public void initializeRestaurants() throws ChangeSetPersister.NotFoundException {
         List<WaiterEntity> waiters = new ArrayList<>();
 
         List<TableEntity> tables = new ArrayList<>();

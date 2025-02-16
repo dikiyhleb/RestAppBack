@@ -17,6 +17,7 @@ import dev.barapp.service.RestaurantService;
 import dev.barapp.service.WaiterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,21 +45,17 @@ public class ManagerController {
     private MenuMapper menuMapper;
 
     @GetMapping("/restaurant")
-    public ManagerRestDTO getRestaurant(@RequestParam(value = "managerId") long id) {
-        RestaurantEntity rest = restaurantService.findRestaurantByManagerEntityId(id);
-
-        return restaurantMapper.restToManagerRestDTO(rest);
+    public ManagerRestDTO getRestaurant(@RequestParam(value = "managerId") long id) throws ChangeSetPersister.NotFoundException {
+        return restaurantService.findRestaurantByManagerEntityId(id);
     }
 
     @GetMapping("/waiters")
-    public List<ManagerWaiterDTO> getWaiters(@RequestParam(value = "restId") long id) {
-        List<WaiterEntity> waiters = waiterService.findWaitersByRestaurantId(id);
-
-        return waiterMapper.toManagerWaitersDTO(waiters);
+    public List<ManagerWaiterDTO> getWaitersByRestId(@RequestParam(value = "restId") long id) throws ChangeSetPersister.NotFoundException {
+        return waiterService.findWaitersByRestaurantId(id);
     }
 
     @PostMapping("/create/food")
-    public MenuEntity createFood(@RequestBody(required = true) FoodEntity foodEntity, @RequestParam(value = "restId") long restId) {
+    public MenuEntity createFood(@RequestBody(required = true) FoodEntity foodEntity, @RequestParam(value = "restId") long restId) throws ChangeSetPersister.NotFoundException {
         return menuService.createFood(foodEntity, restId);
     }
 
@@ -68,9 +65,7 @@ public class ManagerController {
     }
 
     @GetMapping("/menu")
-    public ManagerMenuDTO getMenu(@RequestParam(value = "restId") long restId) {
-        MenuEntity menu = menuService.getMenuByRestaurantId(restId);
-
-        return menuMapper.toManagerMenuDTO(menu);
+    public ManagerMenuDTO getMenu(@RequestParam(value = "restId") long restId) throws ChangeSetPersister.NotFoundException {
+        return menuService.getManagerMenuByRestaurantId(restId);
     }
 }

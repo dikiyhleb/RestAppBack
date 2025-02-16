@@ -9,20 +9,19 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface RestaurantMapper {
-    ManagerRestDTO restToManagerRestDTO(RestaurantEntity restaurantEntity);
+    ManagerRestDTO toManagerRestDTO(RestaurantEntity restaurantEntity);
 
     @Mapping(
             target = "preview",
             expression = "java(restaurantEntity.getImg() != null && !restaurantEntity.getImg().isEmpty() ? restaurantEntity.getImg().get(0) : null)")
-    UserCardRestDTO restToUserCardRestDTO(RestaurantEntity restaurantEntity);
+    UserCardRestDTO toUserCardRestDTO(RestaurantEntity restaurantEntity);
 
-    List<UserCardRestDTO> restToUserCardRestDTO(List<RestaurantEntity> rests);
+    List<UserCardRestDTO> toUserCardRestDTO(List<RestaurantEntity> rests);
 
-    UserRestDTO restToUserRestDTO(RestaurantEntity restaurantEntity);
+    UserRestDTO toUserRestDTO(RestaurantEntity restaurantEntity);
 
-    WaiterRestDTO restToWaiterRestDTO(RestaurantEntity restaurantEntity);
+    WaiterRestDTO toWaiterRestDTO(RestaurantEntity restaurantEntity);
 }

@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.awt.*;
+import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<MenuEntity, Long> {
-    MenuEntity findMenuEntityByRestaurantId(long restaurantId);
+    Optional<MenuEntity> findMenuEntityByRestaurantId(long restaurantId);
 }
