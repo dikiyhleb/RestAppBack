@@ -1,14 +1,14 @@
 package dev.barapp.controllers;
 
-import dev.barapp.DTOs.manager.ManagerCreateFoodDTO;
-import dev.barapp.DTOs.manager.ManagerMenuDTO;
-import dev.barapp.DTOs.manager.ManagerRestDTO;
-import dev.barapp.DTOs.manager.ManagerWaiterDTO;
+import dev.barapp.DTOs.manager.*;
+import dev.barapp.security.CredentialPrincipal;
+import dev.barapp.service.AuthService;
 import dev.barapp.service.MenuService;
 import dev.barapp.service.RestaurantService;
 import dev.barapp.service.WaiterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +20,7 @@ public class ManagerController {
     private final MenuService menuService;
     private final RestaurantService restaurantService;
     private final WaiterService waiterService;
+    private final AuthService authService;
 
     @GetMapping("/restaurant")
     public ManagerRestDTO getRestaurant(@RequestParam(value = "managerId") long id) throws ChangeSetPersister.NotFoundException {
@@ -44,5 +45,10 @@ public class ManagerController {
     @GetMapping("/menu")
     public ManagerMenuDTO getMenu(@RequestParam(value = "restId") long restId) throws ChangeSetPersister.NotFoundException {
         return menuService.getManagerMenuByRestaurantId(restId);
+    }
+
+    @PostMapping("/register/waiter")
+    public ManagerRegisterWaiterDTO registerWaiter(@RequestBody ManagerRegisterWaiterDTO waiterDTO, @RequestParam(value = "restId") long restId) throws ChangeSetPersister.NotFoundException {
+        return authService.registerWaiter(waiterDTO, restId);
     }
 }

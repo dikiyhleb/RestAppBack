@@ -1,9 +1,11 @@
-package dev.barapp.DTOs.auth.register;
+package dev.barapp.DTOs.manager;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class RegisterRequest {
+@Builder
+public class ManagerRegisterWaiterDTO {
     private String name;
     private String email;
     private String password;

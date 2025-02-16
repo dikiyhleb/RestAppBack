@@ -41,7 +41,7 @@ public class UserController {
         return menuService.getUserMenuByRestaurantId(restId);
     }
 
-    //TODO fix return, UserNewOrderDTO is null!
+    //TODO fix return, UserNewOrderDTO is null! Maybe because the UserNewOrderDTO is a class, not a record!
     @PostMapping("/create/order")
     public UserNewOrderDTO createOrder(@RequestBody UserNewOrderDTO order, @RequestParam(value = "restId") long restId) throws ChangeSetPersister.NotFoundException {
         return orderService.createOrder(restId, order);

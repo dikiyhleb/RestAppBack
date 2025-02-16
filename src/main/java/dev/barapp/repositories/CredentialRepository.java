@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface CredentialRepository extends CrudRepository<CredentialEntity, Long> {
     @Query("SELECT c FROM CredentialEntity c WHERE c.email = :email")
     Optional<CredentialEntity> findCredentialEntityByEmail(@Param("email") String email);
+
+    boolean existsByEmail(String email);
 }

@@ -1,5 +1,6 @@
 package dev.barapp.controllers;
 
+import dev.barapp.exceptions.UserAlreadyExistsException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -17,5 +18,14 @@ public class AdviceController {
                 .build();
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err.getBody());
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ProblemDetail> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+        ErrorResponse err = ErrorResponse.builder(ex, HttpStatus.CONFLICT, ex.getMessage())
+                .title("Email Already Exists!")
+                .build();
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(err.getBody());
     }
 }
