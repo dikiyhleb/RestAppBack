@@ -20,4 +20,8 @@ public class TableService {
             default -> throw new ChangeSetPersister.NotFoundException();
         };
     }
+
+    public TableEntity findById(Long id) throws ChangeSetPersister.NotFoundException {
+        return tableRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+    }
 }

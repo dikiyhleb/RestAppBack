@@ -1,11 +1,18 @@
 package dev.barapp.controllers;
 
+import dev.barapp.DTOs.waiter.WaiterOrderDTO;
+import dev.barapp.DTOs.waiter.WaiterPreviewOrderDTO;
 import dev.barapp.DTOs.waiter.WaiterRestDTO;
 import dev.barapp.DTOs.waiter.WaiterTablesDTO;
+import dev.barapp.entities.enums.OrderStatus;
+import dev.barapp.service.OrderService;
 import dev.barapp.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -13,10 +20,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class WaiterController {
     private final RestaurantService restaurantService;
+    private final OrderService orderService;
 
     @GetMapping("/test")
     public String test() {
-        return "test";
+        return "OK";
     }
 
     @GetMapping("/restaurant")
@@ -27,5 +35,24 @@ public class WaiterController {
     @GetMapping("/tables")
     public WaiterTablesDTO getTablesByRestaurantId(@RequestParam(value = "restId") long restId) throws ChangeSetPersister.NotFoundException {
         return restaurantService.getWaiterTablesByRestaurantId(restId);
+    }
+
+    @GetMapping("/orders")
+    public List<WaiterPreviewOrderDTO> getOrdersByWaiterId(@RequestParam(value = "waiterId") long waiterId) throws ChangeSetPersister.NotFoundException {
+        return orderService.getWaiterOrders(waiterId);
+    }
+
+    @GetMapping("/order")
+    public WaiterOrderDTO getOrderByOrderId(@RequestParam(value = "orderId") long orderId) throws ChangeSetPersister.NotFoundException {
+        return orderService.getWaiterOrderById(orderId);
+    }
+
+    @PostMapping("/order/status")
+    public WaiterOrderDTO setOrderStatus(@RequestBody Map<String, String> status, @RequestParam(value = "orderId") long orderId) throws ChangeSetPersister.NotFoundException {
+        String newStatus = status.get("status");
+
+        OrderStatus orderStatus = OrderStatus.valueOf(newStatus.toUpperCase());
+
+        return orderService.setOrderStatus(orderId, orderStatus);
     }
 }

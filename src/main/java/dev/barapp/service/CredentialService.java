@@ -15,4 +15,6 @@ public class CredentialService {
     public Optional<CredentialEntity> findByEmail(String email) {
         return credentialRepository.findCredentialEntityByEmail(email);
     }
+
+
 }

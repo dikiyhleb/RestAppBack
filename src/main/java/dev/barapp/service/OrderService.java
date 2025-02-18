@@ -1,7 +1,10 @@
 package dev.barapp.service;
 
 import dev.barapp.DTOs.user.UserNewOrderDTO;
+import dev.barapp.DTOs.waiter.WaiterOrderDTO;
+import dev.barapp.DTOs.waiter.WaiterPreviewOrderDTO;
 import dev.barapp.entities.OrderEntity;
+import dev.barapp.entities.TableEntity;
 import dev.barapp.entities.WaiterEntity;
 import dev.barapp.entities.enums.OrderStatus;
 import dev.barapp.entities.enums.TableStatus;
@@ -10,6 +13,8 @@ import dev.barapp.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,13 +29,16 @@ public class OrderService {
         WaiterEntity availableWaiter = waiterService.findAvailableWaiterByRestId(restId);
 
         if(tableService.isNonReserved(orderEntity.getTable())){
+            TableEntity table = tableService.findById(orderEntity.getTable().getId());
+
             OrderEntity newOrder = OrderEntity.builder()
-                    .table(orderEntity.getTable())
+                    .table(table)
                     .date(orderEntity.getDate())
                     .foods(orderEntity.getFoods())
                     .status(OrderStatus.NEW)
                     .user(orderEntity.getUser())
                     .waiter(availableWaiter)
+                    .total(orderEntity.getTotal())
                     .build();
 
             newOrder.getTable().setStatus(TableStatus.OCCUPIED);
@@ -40,5 +48,31 @@ public class OrderService {
             return orderMapper.toUserNewOrderDTO(newOrder);
         }
         throw new RuntimeException("Table is not available");
+    }
+
+    public List<WaiterPreviewOrderDTO> getWaiterOrders(long waiterId) throws ChangeSetPersister.NotFoundException {
+        List<OrderEntity> orders = orderRepository.findAllByWaiterId(waiterId);
+
+        if(orders.isEmpty()){
+            throw new ChangeSetPersister.NotFoundException();
+        }
+
+        return orderMapper.toWaiterPreviewOrderDTOs(orders);
+    }
+
+    public WaiterOrderDTO getWaiterOrderById(long orderId) throws ChangeSetPersister.NotFoundException {
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(ChangeSetPersister.NotFoundException::new);
+
+        return orderMapper.toWaiterOrderDTO(orderEntity);
+    }
+
+    public WaiterOrderDTO setOrderStatus(long orderId, OrderStatus orderStatus) throws ChangeSetPersister.NotFoundException {
+        OrderEntity order = orderRepository.findById(orderId).orElseThrow(ChangeSetPersister.NotFoundException::new);
+
+        order.setStatus(orderStatus);
+
+        orderRepository.save(order);
+
+        return orderMapper.toWaiterOrderDTO(order);
     }
 }

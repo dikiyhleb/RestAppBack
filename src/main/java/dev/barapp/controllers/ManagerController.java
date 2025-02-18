@@ -49,6 +49,11 @@ public class ManagerController {
 
     @PostMapping("/register/waiter")
     public ManagerRegisterWaiterDTO registerWaiter(@RequestBody ManagerRegisterWaiterDTO waiterDTO, @RequestParam(value = "restId") long restId) throws ChangeSetPersister.NotFoundException {
-        return authService.registerWaiter(waiterDTO, restId);
+        return waiterService.registerWaiter(waiterDTO, restId);
+    }
+
+    @PutMapping("/update/waiter")
+    public ManagerWaiterDTO updateWaiter(@RequestBody ManagerUpdateWaiterDTO waiterDTO) throws ChangeSetPersister.NotFoundException {
+        return waiterService.updateWaiter(waiterDTO);
     }
 }

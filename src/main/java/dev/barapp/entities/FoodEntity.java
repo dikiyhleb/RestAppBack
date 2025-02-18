@@ -35,4 +35,6 @@ public class FoodEntity {
     @JsonIgnore
     @ManyToMany(mappedBy = "foods")
     private List<OrderEntity> order;
+
+    private Integer quantity;
 }

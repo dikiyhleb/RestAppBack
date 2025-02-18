@@ -27,7 +27,6 @@ public class AuthService {
     private final ManagerRepository managerRepository;
     private final WaiterRepository waiterRepository;
     private final CredentialRepository credentialRepository;
-    private final RestaurantRepository restaurantRepository;
 
     public LoginResponse attemptLogin(String email, String password) {
         var authentication = authenticationManager.authenticate(
@@ -70,37 +69,6 @@ public class AuthService {
                     .role(Role.USER)
                     .email(registerRequest.getEmail())
                     .name(registerRequest.getName())
-                    .build();
-        }
-        else{
-            throw new UserAlreadyExistsException("Email already exists!");
-        }
-    }
-
-    public ManagerRegisterWaiterDTO registerWaiter(ManagerRegisterWaiterDTO dto, long restId) throws ChangeSetPersister.NotFoundException {
-        if(!credentialRepository.existsByEmail(dto.getEmail())) {
-            RestaurantEntity restaurant = restaurantRepository.findById(restId).orElseThrow(ChangeSetPersister.NotFoundException::new);
-
-
-            CredentialEntity credential = CredentialEntity.builder()
-                    .role(Role.WAITER)
-                    .email(dto.getEmail())
-                    .password(dto.getPassword())
-                    .build();
-
-            WaiterEntity waiter = WaiterEntity.builder()
-                    .name(dto.getName())
-                    .restaurant(restaurant)
-                    .credentialEntity(credential)
-                    .build();
-
-            credentialRepository.save(credential);
-            waiterRepository.save(waiter);
-
-            return ManagerRegisterWaiterDTO.builder()
-                    .email(dto.getEmail())
-                    .name(dto.getName())
-                    .password(dto.getPassword())
                     .build();
         }
         else{

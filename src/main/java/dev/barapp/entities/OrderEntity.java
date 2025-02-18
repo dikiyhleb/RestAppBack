@@ -25,6 +25,8 @@ public class OrderEntity {
 
     private BigDecimal rating;
 
+    private BigDecimal total;
+
     @ManyToMany
     @JoinTable(
             name = "order_foods",
