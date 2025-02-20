@@ -1,55 +1,54 @@
 package dev.barapp.controllers;
 
-import dev.barapp.controllers.roles.WithMockUser;
+import dev.barapp.controllers.roles.WithMockWaiter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class UserControllerTest {
+class WaiterControllerTest {
 
     @Autowired
     private MockMvc api;
 
     @Test
     void notLoggedInCantViewPrivateEndpoint() throws Exception {
-        api.perform(get("/api/user/test"))
+        api.perform(get("/api/waiter/test"))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    @WithMockUser
-    void loggedInCanViewPrivateUserEndpoint() throws Exception {
-        api.perform(get("/api/user/test"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("OK"));
+    @WithMockWaiter
+    void loggedInWaiterCanViewPrivateEndpoint() throws Exception {
+        api.perform(get("/api/waiter/test"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    @WithMockUser
-    void loggedInCantViewPrivateAdminEndpoint() throws Exception {
+    @WithMockWaiter
+    void waiterCantViewAdminPrivateEndpoint() throws Exception {
         api.perform(get("/api/admin/test"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithMockUser
-    void loggedInCantViewPrivateWaiterEndpoint() throws Exception {
-        api.perform(get("/api/waiter/test"))
+    @WithMockWaiter
+    void waiterCannotViewUserPrivateEndpoint() throws Exception {
+        api.perform(get("/api/user/test"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithMockUser
-    void loggedInCantViewPrivateManagerEndpoint() throws Exception {
+    @WithMockWaiter
+    void waiterCannotViewManagerPrivateEndpoint() throws Exception {
         api.perform(get("/api/manager/test"))
                 .andExpect(status().isForbidden());
     }
-
 }
