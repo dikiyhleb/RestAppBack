@@ -22,6 +22,11 @@ public class ManagerController {
     private final WaiterService waiterService;
     private final AuthService authService;
 
+    @GetMapping("/test")
+    public String test() {
+        return "OK";
+    }
+
     @GetMapping("/restaurant")
     public ManagerRestDTO getRestaurant(@RequestParam(value = "managerId") long id) throws ChangeSetPersister.NotFoundException {
         return restaurantService.findRestaurantByManagerEntityId(id);

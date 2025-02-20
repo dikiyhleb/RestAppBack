@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -28,26 +29,19 @@ class WaiterControllerTest {
     @WithMockWaiter
     void loggedInWaiterCanViewPrivateEndpoint() throws Exception {
         api.perform(get("/api/waiter/test"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string("OK"));
     }
 
     @Test
     @WithMockWaiter
-    void waiterCantViewAdminPrivateEndpoint() throws Exception {
+    void waiterCantViewOtherPrivateEndpoint() throws Exception {
         api.perform(get("/api/admin/test"))
                 .andExpect(status().isForbidden());
-    }
 
-    @Test
-    @WithMockWaiter
-    void waiterCannotViewUserPrivateEndpoint() throws Exception {
         api.perform(get("/api/user/test"))
                 .andExpect(status().isForbidden());
-    }
 
-    @Test
-    @WithMockWaiter
-    void waiterCannotViewManagerPrivateEndpoint() throws Exception {
         api.perform(get("/api/manager/test"))
                 .andExpect(status().isForbidden());
     }
