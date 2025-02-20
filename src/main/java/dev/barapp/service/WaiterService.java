@@ -17,6 +17,8 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -79,7 +81,7 @@ public class WaiterService {
                     .orElseThrow(ChangeSetPersister.NotFoundException::new);
             CredentialEntity existCredential = credentialRepository.findCredentialEntityByEmail(dto.email())
                     .orElseThrow(ChangeSetPersister.NotFoundException::new);
-            if(existWaiter.getCredentialEntity().getId() != existCredential.getId()){
+            if(!Objects.equals(existWaiter.getCredentialEntity().getId(), existCredential.getId())){
                 throw new UserAlreadyExistsException("Email already used another user!");
             }
         }
@@ -97,5 +99,9 @@ public class WaiterService {
         waiterRepository.save(waiter);
 
         return waiterMapper.toManagerWaiterDTO(waiter);
+    }
+
+    public WaiterEntity findWaiterById(long id) throws ChangeSetPersister.NotFoundException {
+        return waiterRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
     }
 }

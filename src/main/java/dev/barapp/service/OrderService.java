@@ -1,11 +1,10 @@
 package dev.barapp.service;
 
 import dev.barapp.DTOs.user.UserNewOrderDTO;
+import dev.barapp.DTOs.waiter.WaiterNewOrderDTO;
 import dev.barapp.DTOs.waiter.WaiterOrderDTO;
 import dev.barapp.DTOs.waiter.WaiterPreviewOrderDTO;
-import dev.barapp.entities.OrderEntity;
-import dev.barapp.entities.TableEntity;
-import dev.barapp.entities.WaiterEntity;
+import dev.barapp.entities.*;
 import dev.barapp.entities.enums.OrderStatus;
 import dev.barapp.entities.enums.TableStatus;
 import dev.barapp.mappers.OrderMapper;
@@ -23,6 +22,7 @@ public class OrderService {
     private final WaiterService waiterService;
     private final TableService tableService;
     private final OrderMapper orderMapper;
+    private final UserService userService;
 
 
     public UserNewOrderDTO createOrder(long restId, UserNewOrderDTO orderEntity) throws ChangeSetPersister.NotFoundException {
@@ -48,6 +48,30 @@ public class OrderService {
             return orderMapper.toUserNewOrderDTO(newOrder);
         }
         throw new RuntimeException("Table is not available");
+    }
+
+    public WaiterNewOrderDTO createOrder(WaiterNewOrderDTO orderEntity) throws ChangeSetPersister.NotFoundException {
+        WaiterEntity waiter = waiterService.findWaiterById(orderEntity.waiterId());
+
+        RestaurantEntity restaurant = waiter.getRestaurant();
+
+        UserEntity user = userService.findUserByEmail(orderEntity.userEmail());
+
+        OrderEntity newOrder = OrderEntity.builder()
+                .total(orderEntity.total())
+                .table(orderEntity.table())
+                .user(user)
+                .status(OrderStatus.NEW)
+                .foods(orderEntity.foods())
+                .date(orderEntity.date())
+                .waiter(waiter)
+                .build();
+
+        newOrder.getTable().setStatus(TableStatus.OCCUPIED);
+
+        orderRepository.save(newOrder);
+
+        return orderMapper.toWaiterNewOrderDTO(newOrder);
     }
 
     public List<WaiterPreviewOrderDTO> getWaiterOrders(long waiterId) throws ChangeSetPersister.NotFoundException {

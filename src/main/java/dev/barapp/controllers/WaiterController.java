@@ -1,9 +1,6 @@
 package dev.barapp.controllers;
 
-import dev.barapp.DTOs.waiter.WaiterOrderDTO;
-import dev.barapp.DTOs.waiter.WaiterPreviewOrderDTO;
-import dev.barapp.DTOs.waiter.WaiterRestDTO;
-import dev.barapp.DTOs.waiter.WaiterTablesDTO;
+import dev.barapp.DTOs.waiter.*;
 import dev.barapp.entities.enums.OrderStatus;
 import dev.barapp.service.OrderService;
 import dev.barapp.service.RestaurantService;
@@ -54,5 +51,10 @@ public class WaiterController {
         OrderStatus orderStatus = OrderStatus.valueOf(newStatus.toUpperCase());
 
         return orderService.setOrderStatus(orderId, orderStatus);
+    }
+
+    @PostMapping("/create/order")
+    public WaiterNewOrderDTO createNewOrder(@RequestBody WaiterNewOrderDTO newOrder) throws ChangeSetPersister.NotFoundException {
+        return orderService.createOrder(newOrder);
     }
 }
