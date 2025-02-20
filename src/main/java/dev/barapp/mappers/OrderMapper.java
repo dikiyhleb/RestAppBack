@@ -1,6 +1,7 @@
 package dev.barapp.mappers;
 
 import dev.barapp.DTOs.user.UserNewOrderDTO;
+import dev.barapp.DTOs.user.UserOrderDTO;
 import dev.barapp.DTOs.waiter.WaiterNewOrderDTO;
 import dev.barapp.DTOs.waiter.WaiterOrderDTO;
 import dev.barapp.DTOs.waiter.WaiterPreviewOrderDTO;
@@ -18,4 +19,6 @@ public interface OrderMapper {
     WaiterOrderDTO toWaiterOrderDTO(OrderEntity order);
 
     WaiterNewOrderDTO toWaiterNewOrderDTO(OrderEntity order);
+
+    List<UserOrderDTO> toUserOrderDTOs(List<OrderEntity> order);
 }

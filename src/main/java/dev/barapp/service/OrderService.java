@@ -1,6 +1,7 @@
 package dev.barapp.service;
 
 import dev.barapp.DTOs.user.UserNewOrderDTO;
+import dev.barapp.DTOs.user.UserOrderDTO;
 import dev.barapp.DTOs.waiter.WaiterNewOrderDTO;
 import dev.barapp.DTOs.waiter.WaiterOrderDTO;
 import dev.barapp.DTOs.waiter.WaiterPreviewOrderDTO;
@@ -57,17 +58,20 @@ public class OrderService {
 
         UserEntity user = userService.findUserByEmail(orderEntity.userEmail());
 
+        TableEntity table = tableService.findById(orderEntity.table().getId());
+
+        table.setStatus(TableStatus.OCCUPIED);
+
         OrderEntity newOrder = OrderEntity.builder()
                 .total(orderEntity.total())
-                .table(orderEntity.table())
+                .table(table)
                 .user(user)
                 .status(OrderStatus.NEW)
                 .foods(orderEntity.foods())
                 .date(orderEntity.date())
                 .waiter(waiter)
+                .restaurant(restaurant)
                 .build();
-
-        newOrder.getTable().setStatus(TableStatus.OCCUPIED);
 
         orderRepository.save(newOrder);
 
@@ -98,5 +102,15 @@ public class OrderService {
         orderRepository.save(order);
 
         return orderMapper.toWaiterOrderDTO(order);
+    }
+
+    public List<UserOrderDTO> getUserOrdersByUserId(long userId) throws ChangeSetPersister.NotFoundException {
+        List<OrderEntity> orders = orderRepository.findAllByUserId(userId);
+
+        if(orders.isEmpty()){
+            throw new ChangeSetPersister.NotFoundException();
+        }
+
+        return orderMapper.toUserOrderDTOs(orders);
     }
 }

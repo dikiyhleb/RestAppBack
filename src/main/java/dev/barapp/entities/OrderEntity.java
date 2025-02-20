@@ -46,4 +46,8 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "waiter_id")
     private WaiterEntity waiter;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private RestaurantEntity restaurant;
 }

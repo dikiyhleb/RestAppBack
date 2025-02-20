@@ -28,6 +28,7 @@ public class WaiterEntity extends BaseUserEntity{
     @JoinColumn(name = "restaurant_id")
     private RestaurantEntity restaurant;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "waiter", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderEntity> order;
 }

@@ -1,9 +1,6 @@
 package dev.barapp.controllers;
 
-import dev.barapp.DTOs.user.UserCardRestDTO;
-import dev.barapp.DTOs.user.UserMenuDTO;
-import dev.barapp.DTOs.user.UserNewOrderDTO;
-import dev.barapp.DTOs.user.UserRestDTO;
+import dev.barapp.DTOs.user.*;
 import dev.barapp.service.MenuService;
 import dev.barapp.service.OrderService;
 import dev.barapp.service.RestaurantService;
@@ -44,5 +41,10 @@ public class UserController {
     @PostMapping("/create/order")
     public UserNewOrderDTO createOrder(@RequestBody UserNewOrderDTO order, @RequestParam(value = "restId") long restId) throws ChangeSetPersister.NotFoundException {
         return orderService.createOrder(restId, order);
+    }
+
+    @GetMapping("/orders")
+    public List<UserOrderDTO> getOrdersByUserId(@RequestParam(value = "userId") long userId) throws ChangeSetPersister.NotFoundException {
+        return orderService.getUserOrdersByUserId(userId);
     }
 }
