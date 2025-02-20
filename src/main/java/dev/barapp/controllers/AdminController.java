@@ -6,14 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 @RequiredArgsConstructor
 public class AdminController {
 
-    @GetMapping("check")
-    public String checkAdmin() {
-        return "admin check: OK!";
+    @GetMapping("/test")
+    public String test() {
+        return "OK";
     }
-
-
 }
